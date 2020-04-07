@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>图片轮播</title>
+    <style type="text/css">
+    	*{
+    		padding: 0px;
+    		margin: 0px;
+    		list-style: none;
+    	}
+    	#container{
+    		width: 790px;
+    		height: 320px;
+    		margin: 20px auto;
+    		overflow: hidden;
+    		position: relative;
+    	}
+    	#list{
+    		position: absolute;
+    		bottom: 5px;
+    		right: 40%;
+    	}
+    	#list li{
+    		transition-duration: 1s;
+    		float: left;
+    		margin: 10px;
+    		background-color: #646464;
+    		color: white;
+    		width: 20px;
+    		text-align: center;
+    		border-radius: 50%;
+    	}
+    	#list .on{
+    		background-color: #FF2832;
+    	}
+    	#left{
+    		transition-duration: 0.5s;
+    		position: absolute;
+    		left: -30px;
+    		bottom: 110px;
+    		height: 100px;
+    		width: 30px;
+    		background-color: rgba(75,80,93,0.3);
+    	}
+    	#right{
+    		/*演示特效，左右都有*/
+    		transition-duration: 0.5s;
+    		position: absolute;
+    		right: -30px;
+    		bottom: 110px;
+    		height: 100px;
+    		width: 30px;
+    		background-color: rgba(75,80,93,0.3);
+    	}
+    	#right:hover{
+    		background-color: rgba(75,80,93,0.7);
+    	}
+    	#left:hover{
+    		background-color: rgba(75,80,93,0.7);
+    	}
+    	#left-arrow{
+    		position: absolute;
+    		margin-top: 40px;
+    		margin-left: 10px;	
+		    width: 7px;
+		    height: 7px;
+		    border-top: 2px solid #ffffff;
+		    border-right: 2px solid #ffffff;
+		    transform: rotate(45deg);
+    	}
+    	#right-arrow{
+    		position: absolute;
+    		margin-top: 40px;
+    		margin-left: 10px;	
+		    width: 7px;
+		    height: 7px;
+		    border-top: 2px solid #ffffff;
+		    border-right: 2px solid #ffffff;
+		    transform: rotate(225deg);
+    	}
+    </style>
+</head>
+<body>
+	<div id="container">
+		<ul id="pic">
+			<li>
+				<img src="A.png">
+			</li>
+			<li>
+				<img src="B.png">
+			</li>
+			<li>
+				<img src="C.png">
+			</li>
+			<li>
+				<img src="D.png">
+			</li>
+			<li>
+				<img src="E.png">
+			</li>
+			<div id=left>
+				<div id="right-arrow">
+					
+				</div>
+			</div>
+			<div id="right">
+				<div id="left-arrow">
+					
+				</div>
+			</div>
+		</ul>
+		<ul id="list">
+			<li class="on">1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+		</ul>
+	</div>
+	<script type="text/javascript">
+		var pic=document.getElementById("pic");
+		var list=document.getElementById("list").getElementsByTagName("li");
+		var left=document.getElementById("left");
+		var right=document.getElementById("right");
+		var index=0;
+		var time=null;
+		function change(currentIndex){
+			for(var i=0;i<list.length;i++){//先全部不显示
+				list[i].className="";	
+			}
+			pic.style.marginTop=-330*currentIndex+"px";
+			list[currentIndex].className="on";
+		}
+		function auto(){
+			left.style.left=-30+"px";
+			right.style.right=-30+"px";
+			time=setInterval(function(){
+				// window.alert(index);
+				index=(index+1)%list.length;
+				change(index);
+			},2000)
+		}
+		auto();/*自动轮播*/
+		pic.onmouseover=function(){/*鼠标放到图片上停止轮播*/
+			left.style.left=0+"px";
+			right.style.right=0+"px";
+			pic.style.cursor="pointer";
+			clearInterval(time);
+		}
+		pic.onmouseout=auto;/*鼠标拿下来继续轮播*/
+		for(var k=0;k<list.length;k++){/*类似tab切换，放到哪个数字显示哪组图片*/
+			// window.alert(k);
+			list[k].onmouseover=function(){
+				trans(this);
+				index=k;
+				// window.alert(k);
+				clearInterval(time);
+			}
+			list[k].onmouseout=auto;
+		}
+		function trans(obj){
+			for(var i=0;i<list.length;i++){
+				if(list[i]==obj){
+					index=i;
+					left.style.left=0+"px";
+					right.style.right=0+"px";
+					list[i].className="on";
+					pic.style.marginTop=-330*i+"px";
+					list[i].style.cursor="pointer";
+				}else{
+					list[i].className="";
+				}
+			}
+		}
+		left.onclick=function(){//向左轮播
+			for(var i=0;i<list.length;i++){
+				list[i].className="";
+			}
+			index=(index-1+list.length)%list.length;
+			list[index].className="on";
+			pic.style.marginTop=-330*index+"px";
+		}
+		right.onclick=function(){//向右轮播
+			for(var i=0;i<list.length;i++){
+				list[i].className="";
+			}
+			index=(index+1)%list.length;
+			list[index].className="on";
+			pic.style.marginTop=-330*index+"px";
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>表单的应用</title>
+	<style>
+		fieldset{
+			width:33%;
+			border:1px dashed blue;
+/*			position: absolute;*/
+			top: 40px;
+			margin: auto;
+		}
+		legend{margin-left: 60px;color:#f00;}
+	</style>
+</head>
+<body>
+	<form action="">
+		<fieldset>
+		<legend>注册框</legend>
+		用户名 : <input type="text" name=""> <br>
+		<br>
+		密&nbsp;&nbsp;&nbsp;码 :  <input type="text" name=""><br>
+		<br>
+		性&nbsp;&nbsp;&nbsp;别 : male<input type="radio" name="gender" id="man"><label for="man"></label>
+		female<input type="radio" name="gender" id="woman"><label for="woman"></label>
+		<br>
+		<br>
+		爱&nbsp;&nbsp;&nbsp;好 :<input type="checkbox" name="">学习
+		<input type="checkbox" name="">唱歌
+		<input type="checkbox" name="">舞蹈
+		<input type="checkbox" name="">跑步
+		<br>
+		<br>
+		邮&nbsp;&nbsp;&nbsp;箱 :  <input type="text" name="">
+		<br>
+		<br>
+		博&nbsp;&nbsp;&nbsp;客 :  <input type="text" name="">
+		<br>
+		<br>
+		生&nbsp;&nbsp;&nbsp;日 : <input type="text" name="">
+		<br>
+		<br>
+		喜爱的颜色:
+		<input type="color" name="">
+		<br>
+		<br>
+		籍贯:	<select name="" id="prov" onchange=changeCity()>
+				<option value="">--请选择省--</option>
+				</select>
+
+				<select name="" id="city" onchange=changeCountry()>
+					<option value="">--请选择市--</option>
+				</select>
+
+				<select name="" id="county">
+					<option value="">--请选择县--</option>
+				</select>
+		<br><br>
+		<input type="button" value="提交">
+		<input type="button" value="重置">
+		</fieldset>
+		</form>
+		<script>
+			var prov=document.getElementById("prov")
+			var city=document.getElementById("city")
+			var county=document.getElementById("county")
+
+			var arr_prov=new Array(new Option("--请选择省--",""),new Option("河南省",""),
+					new Option("江苏省",""),new Option("山西省",""))
+			var arr_city=new Array()
+			arr_city[1]=new Array(new Option("--请选择市--",""),new Option("焦作市",""),new Option("鹤壁市",""),new Option("南阳市",""))
+			arr_city[2]=new Array(new Option("--请选择市--",""),new Option("苏州市",""),new Option("无锡市",""),new Option("常州市",""))
+			arr_city[3]=new Array(new Option("--请选择市--",""),new Option("太原市",""),new Option("大同市",""),new Option("阳泉市",""))
+
+
+
+			var arr_country=new Array();
+
+			arr_country[1]=new Array(new Option("--请选择县--",""),new Option("山阳区",""),new Option("修武县",""))
+			arr_country[2]=new Array(new Option("--请选择县--",""),new Option("浚县",""),new Option("淇县",""))
+			arr_country[3]=new Array(new Option("--请选择县--",""),new Option("内乡县	",""),new Option("淅川县",""))
+			arr_country[4]=new Array(new Option("--请选择县--",""),new Option("姑苏区	",""),new Option("虎丘区",""))
+			arr_country[5]=new Array(new Option("--请选择县--",""),new Option("梁溪区",""),new Option("滨湖区",""))
+			arr_country[6]=new Array(new Option("--请选择县--",""),new Option("新北区",""),new Option("天宁区",""))
+			arr_country[7]=new Array(new Option("--请选择县--",""),new Option("清徐县",""),new Option("阳曲县",""))
+			arr_country[8]=new Array(new Option("--请选择县--",""),new Option("阳高县",""),new Option("天镇县",""))
+			arr_country[9]=new Array(new Option("--请选择县--",""),new Option("平定县",""),new Option("盂县",""))
+
+
+			for(var i=0;i<arr_prov.length;i++){
+				prov.options[i]=arr_prov[i]
+			}
+
+		function changeCity(){
+			city.options.length=0;
+			var index=prov.selectedIndex
+			for(var i=0;i<arr_city[index].length;i++){
+				city.options[i]=arr_city[index][i]
+			}
+
+		}
+		function changeCountry(){
+			county.options.length=0;
+			var pindex=prov.selectedIndex;
+			var cindex=city.selectedIndex;
+			var id=(pindex-1)*3+cindex;
+			for(var j=0;j<arr_country[id].length;j++){
+				county.options[j]=arr_country[id][j];
+			}
+		}
+		</script>
+			
+		
+	
+</body>
+</html>

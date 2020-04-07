@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Tab-切换</title>
+	<style>
+	*{
+		padding: 0px;
+		margin: 0px;
+		list-style: none;
+		}
+	#container{
+		margin: 50px;
+	}
+	#tab{
+		cursor: pointer;
+	}
+	ul li{
+/*		float: left;*/
+/*		margin: 100px;
+		color:blue;
+		height:80px;
+		width: 230px;
+		line-height: 40px;
+		margin-right:1px;*/
+/*		padding:0px 10px;*/
+/*		font-size: 20px;
+		background: rgba(238,238,238,1.00)*/
+
+		color: #015293;/*选中字体颜色*/
+		font-weight:bold;
+		margin: 50px;
+		width: 230px;
+		height: 80px;
+		text-align:center;
+		line-height: 80px;
+		background: #EEEEEE;
+		border-radius: 8px;/*给予圆角*/
+	}
+	#content{
+		clear:left;
+		width:300px;
+		height:200px;
+	}
+	ul .on{
+		color: rgba(255,255,255,1.00);/*选中字体颜色*/
+		font-weight:bold;
+		margin: 50px;
+		width: 230px;
+		height: 80px;
+		text-align:center;
+		line-height: 80px;
+		background: rgba(1,82,147,1.00);
+		border-radius: 8px;/*给予圆角*/
+	}
+	#content>div{
+		display:none;/*不显示文本*/
+		padding-top:5px;
+		line-height:2.0;
+	}
+	#content .selected{
+		display:block;
+	}
+	#content ul li{
+		color:black;
+		font-size: 12px;
+		line-height: 20px;
+		height:20px;
+		border-radius: 8px;/*给予圆角*/
+	}
+	#content>div>img{
+		position: absolute;
+		float: left;
+		cursor: text;
+	}
+		
+		.rRectangle:after{
+			display: inline-block;/*显出直角*/
+			margin: 0px;
+			width: 0px;/*上下左右四个边挨在一起*/
+			height: 0px;
+			border-top: 10px solid transparent;/*transparent:透明色*/
+			border-bottom: 10px solid transparent;
+			border-right: 10px solid transparent;
+			border-left: 10px solid rgba(1,82,147,1.00);/*上面四个是吧其中一个三角显示，其他隐藏*/
+			content: "";/*显示出三角*/
+			position: relative;
+			left: 340px;
+			top: -70px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div class="rRectangle">
+			<ul id="tab">
+				<li class="on">走进焦作</li>
+				<li>要闻动态</li>
+				<li>政务公开</li>
+				<li>政务服务</li>
+				<li>政民互动</li>
+				<li>专题专栏</li>
+			</ul>
+		</div>
+		<div id="content">
+			<div class="selected">
+<!--				<img src="11.jpg" alt="精选">-->
+			</div>
+			<div>
+<!--				<img src="2.jpg" alt="数码">-->
+			</div>
+			<div>
+<!--				<img src="3.jpg" alt="美食">-->
+			</div>
+			<div>
+<!--				<img src="4.jpg" alt="百货">-->
+			</div>
+			<div>
+<!--				<img src="5.jpg" alt="预告">-->
+			</div>
+		</div>
+	</div>
+
+	<script>
+  		var tabs=document.getElementById("tab").getElementsByTagName("li");
+  		var divs=document.getElementById("content").getElementsByTagName("div");
+  		for(var i=0 ;i<tabs.length ;i++){
+  			tabs[i].onmouseover=function(){
+  				change(this);
+  			}
+  		}
+  		function change(obj){
+  			for(var i=0 ;i<tabs.length ;i++){
+  				if(tabs[i]==obj){
+  					tabs[i].className="on";
+  					divs[i].className="selected";
+  				}else{
+  					tabs[i].className="";
+  					divs[i].className="";
+  				}
+  			}
+  		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style type="text/css">
+    	*{
+    		margin: 0px;
+    		padding: 0px;
+    	}
+    	h1{
+    		text-align: center;
+    	}
+    	table{
+    		border: 2px solid #aaa;
+    		border-collapse: collapse;
+    		width: 60%;
+    		margin: auto;
+    	}
+    	th,td{
+    		border: 2px solid #bbb;
+    		border-collapse: collapse;
+    		padding: 5px;
+    	}
+/*    	最后一个子元素*/
+    	tr td:last-child{
+    		text-align: center;
+    	}
+    	tr td:nth-child(1) img{
+    		vertical-align: middle;
+    	}
+    	#books #check{
+    		display: none;
+    	}
+    	#chall{
+    		position: relative;
+    		left: 360px;
+    		top: 20px;
+    	}
+    </style>
+</head>
+<body>
+	<h1>购书清单</h1>
+	<table>
+		<thead>
+			<tr>
+				<th>书名</th>
+				<th>单价</th>
+				<th>作者</th>
+				<th>出版社</th>
+				<th>库存</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		<tbody id="books">
+			<tr>
+				<td>
+					<input type="checkbox" id="check" onclick="tot()">
+					<img src="book-images/cv.jpg">
+					计算机视觉
+				</td>
+				<td>100</td>
+				<td>A</td>
+				<td>清华大学出版社</td>
+				<td>10</td>
+				<td>
+					<input type="button" value="加入购物车" onclick="add_book(this)">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="check" onclick="tot()">
+					<img src="book-images/dl.jpg">
+					深度学习
+				</td>
+				<td>123</td>
+				<td>B</td>
+				<td>北京大学出版社</td>
+				<td>20</td>
+				<td>
+					<input type="button" value="加入购物车" onclick="add_book(this)">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="check" onclick="tot()">
+					<img src="book-images/dip.jpg">
+					数字图像处理
+				</td>
+				<td>144</td>
+				<td>Tom</td>
+				<td>科学出版社</td>
+				<td>100</td>
+				<td>
+					<input type="button" value="加入购物车" onclick="add_book(this)">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="check" onclick="tot()">
+					<img src="book-images/ml.jpg">
+					机器学习
+				</td>
+				<td>111</td>
+				<td>F</td>
+				<td>清华大学出版社</td>
+				<td>189</td>
+				<td>
+					<input type="button" value="加入购物车" onclick="add_book(this)">
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" id="check" onclick="tot()">
+					<img src="book-images/sz.jpg">
+					苏州记
+				</td>
+				<td>233</td>
+				<td>G</td>
+				<td>苏州大学出版社</td>
+				<td>291</td>
+				<td>
+					<input type="button" value="加入购物车" onclick="add_book(this)">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div id="chall">
+		<input type="checkbox" id="all" onclick="selectall()">
+		全选
+	</div>
+	<h1>购物车</h1>
+	<table>
+<!-- 		表头 -->
+		<thead>
+			<tr>
+				<th>书名</th>
+				<th>单价</th>
+				<th>数量</th>
+				<th>金额</th>
+				<th>删除</th>
+			</tr>
+		</thead>
+<!-- 已选货物 -->
+		<tbody id="goods">
+			
+		</tbody>
+<!-- 		尾部 -->
+		<tfoot>
+			<tr>
+				<td colspan="3">总计</td>
+				<td id="total">0</td>
+				<td>
+					<input type="button" value="删除" onclick="removechosen()">
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+
+	<script type="text/javascript">
+		function add_book(btn){
+			var tr=btn.parentNode.parentNode;
+			var tds=tr.getElementsByTagName('td');
+			var name=tds[0].innerHTML;
+			var price=tds[1].innerHTML;
+			var tbody=document.getElementById("goods");//货物表
+
+			var trs=tbody.getElementsByTagName("tr");
+
+			var ok=0;//判定有没有重复的
+			for(var i=0;i<trs.length;i++){
+				var chosentds=trs[i].getElementsByTagName("td");//已经被选择的行的商品名
+				if(chosentds[0].innerHTML==name){
+					ok=1;
+					break;
+				}
+			}
+
+			if(ok==0){//没有出现重复的
+				var rest=parseInt(tds[4].innerHTML);//库存
+				if(rest==0){
+					alert("该货物已经售完");
+					return ;
+				}
+				var row=tbody.insertRow();
+				// alert(row);
+				row.innerHTML=
+				"<td>"+name+"</td>"+
+				"<td>"+price+"</td>"+
+				"<td>"+
+					"<input type=button value='-' onclick=\"change(this,-1)\"/>"+
+					"<input type=text value='1' />"+
+					"<input type=button value='+' onclick=\"change(this,1)\"/>"+
+				"</td>"+
+				"<td>"+price+"</td>"+
+				"<td>"+
+					"<input type=button value='删除''  onclick=del(this)>"+
+				"</td>";
+				var rest=parseInt(tds[4].innerHTML);//库存
+				if(rest==0){
+					alert("该货物已经售完");
+				}else{
+					rest-=1;
+					tds[4].innerHTML=rest;
+				}
+			}
+			else{
+				var rest=parseInt(tds[4].innerHTML);//库存
+				if(rest==0){
+					alert("该货物已经售完");
+				}else{
+					tds[4].innerHTML=rest;
+					for(var i=0;i<trs.length;i++){//更新已购货物表
+						var chosentds=trs[i].getElementsByTagName("td");
+						if(chosentds[0].innerHTML==name){
+							var obj=chosentds[2].getElementsByTagName("input")[2];
+							change(obj,1);
+							break;
+						}
+					}
+				}
+			}
+			tot();
+			// alert(row)
+		}
+		function change(obj,x){
+			// alert("1");
+			var inputs=obj.parentNode.getElementsByTagName("input");
+			var tds=obj.parentNode.parentNode.getElementsByTagName("td");
+			var totmoney=parseInt(tds[3].innerHTML);//当前货物的总价值
+			var price=parseInt(tds[1].innerHTML);//当前货物的单价
+			var nowname=tds[0].innerHTML;
+			var nownumber=parseInt(inputs[1].value);//当前货物的数量
+			if(x==-1){
+				if(nownumber>1){
+					nownumber-=1;
+					totmoney-=price;
+					var tbody=document.getElementById("books");
+					var booktrs=tbody.getElementsByTagName("tr");//所有的书
+					for(var i=0;i<booktrs.length;i++){
+						var booktds=booktrs[i].getElementsByTagName("td");
+						var name=booktds[0].innerHTML;
+						if(name==nowname){//找到要删除的书恢复原来的数量
+							var rest=parseInt(booktds[4].innerHTML);
+							rest+=1;
+							booktds[4].innerHTML=rest;
+							break;
+						}
+					}
+				}
+			}
+			else{
+				var rest=0;//该书库存
+				var tbody=document.getElementById("books");
+				var booktrs=tbody.getElementsByTagName("tr");//所有的书
+				for(var i=0;i<booktrs.length;i++){
+					var booktds=booktrs[i].getElementsByTagName("td");
+					var name=booktds[0].innerHTML;
+					if(name==nowname){//找到要删除的书恢复原来的数量
+						rest=parseInt(booktds[4].innerHTML);
+						break;
+					}
+				}
+				if(rest>0){
+					nownumber+=1;
+					totmoney+=price;
+					rest-=1;
+					for(var i=0;i<booktrs.length;i++){
+						var booktds=booktrs[i].getElementsByTagName("td");
+						var name=booktds[0].innerHTML;
+						if(name==nowname){//找到要删除的书恢复原来的数量
+							booktds[4].innerHTML=rest;
+							break;
+						}
+					}
+				}
+				else{
+					alert("该货物已经售完");
+				}
+			}
+			tds[3].innerHTML=totmoney;
+			inputs[1].value=nownumber;
+			tot();
+		}
+		function del(obj){
+			var tr=obj.parentNode.parentNode;
+			var nownumber=parseInt(tr.getElementsByTagName("td")[2].getElementsByTagName("input")[1].value);//当前货物的数量
+			var nowname=tr.getElementsByTagName("td")[0].innerHTML;//当前货物的名字
+			var tbody=document.getElementById("books");
+			var trs=tbody.getElementsByTagName("tr");//所有的书
+			for(var i=0;i<trs.length;i++){
+				var tds=trs[i].getElementsByTagName("td");
+				var name=tds[0].innerHTML;
+				if(name==nowname){//找到要删除的书恢复原来的数量
+					var rest=parseInt(tds[4].innerHTML);
+					rest+=nownumber;
+					tds[4].innerHTML=rest;
+					break;
+				}
+			}
+			tr.remove();
+			tot();
+		}
+		function tot(){
+			var tbody=document.getElementById("goods");
+			var trs=tbody.getElementsByTagName("tr");
+			var sum=0;
+			for(var i=0;i<trs.length;i++){
+				var tds=trs[i].getElementsByTagName("td");
+				var btn=tds[0].childNodes;
+				if(btn[1].checked==true){
+					var money=tds[3].innerHTML;//每一行的价格
+					sum+=parseFloat(money);
+				}
+			}
+			var total=document.getElementById("total");
+			total.innerHTML=sum;
+		}
+		function selectall(){
+			var dec=document.getElementById("all");
+			goods=document.getElementById("goods").getElementsByTagName("tr");
+			for(var i=0;i<goods.length;i++){
+				var tds=goods[i].getElementsByTagName("td");
+				var btn=tds[0].childNodes;
+				if(dec.checked) btn[1].checked=true;
+				else btn[1].checked=false;
+			}
+			tot();
+		}
+		function removechosen(){
+			goods=document.getElementById("goods").getElementsByTagName("tr");
+			// for(var t=0;t<100;t++){
+				for(var i=goods.length-1;i>=0;i--){
+					var tds=goods[i].getElementsByTagName("td");
+					var btn=tds[0].childNodes;
+					// alert(i);
+					if(btn[1].checked==true){
+						// alert(i);
+						del(btn[1]);
+					}
+				}
+			}
+		// }
+	</script>
+</body>
+</html>
